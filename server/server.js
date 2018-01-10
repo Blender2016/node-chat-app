@@ -2,7 +2,7 @@ const express = require ("express");
 const path = require ("path");
 const socketIO  = require("socket.io");
 const http = require("http");
-const {generateMessage} = require('./utils/message');
+const {generateMessage ,generateLocationMessage} = require('./utils/message');
 
 
 // constant variables
@@ -29,7 +29,10 @@ io.on('connection',(socket)=>{
          //broadcast message to all clients
          io.emit('newMessage',generateMessage(message.from,message.text));
          callback();
+     });
 
+     socket.on('createLocationMessage',(coords)=>{
+        io.emit('newLocationMessage',generateLocationMessage('Admin',coords.latitude,coords.longitude));
      });
 });
 
