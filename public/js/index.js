@@ -1,7 +1,12 @@
 var socket = io();
 socket.on('connect',function () {
-    console.log('Connected to the server');
 
+
+    socket.on('welcomeMessage',function(message){
+        console.log(message);
+    });
+
+    console.log('Connected to the server');
     // socket.emit('createEmail' ,{
     //     to :'example@example.com',
     //     text: 'hello server',
@@ -24,5 +29,10 @@ socket.on('disconnect',function (){
 socket.on('newMessage',function(message){
     console.log("newMessage" ,message);
 });
+
+socket.on('newUserJoind',function(message){
+    console.log(message);
+});
+
 
 

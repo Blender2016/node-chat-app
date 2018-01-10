@@ -12,6 +12,18 @@ const server = http.createServer(app);
 const io = socketIO(server);
 io.on('connection',(socket)=>{
      console.log("new user connected to the server.");
+     
+     // send a welcome message from the admin to all connected clients
+     socket.emit('welcomeMessage',{
+         from:'admin',
+         text:'welcome to the chat app'
+     }); 
+
+     socket.broadcast.emit('newUserJoind',{
+         from:'admin',
+         text:"new user joind",
+         createdAt:new Date().getTime()
+     });
 
      socket.on('disconnect',()=>{
          console.log("user disconnected from the server");
@@ -29,11 +41,22 @@ io.on('connection',(socket)=>{
 
      socket.on("createMessage",(newMessage)=>{
          console.log("createMessage" ,newMessage);
+          
+         
+
+         //broadcast message to all clients
          io.emit('newMessage',{
              from:newMessage.from,
              text:newMessage.text,
              createdAt:new Date().getTime
          });
+        //--------------------------------- 
+        // broadcast message to all clients except the client that dispatch the event
+        // socket.broadcast.emit('newMessage',{
+        //    from:newMessage.from,
+        //    text:newMessage.text,
+        //    createdAt:new Date().getTime()
+        // });
      });
 
     //  socket.emit('newMessage',{
