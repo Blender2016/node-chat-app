@@ -17,25 +17,30 @@ io.on('connection',(socket)=>{
          console.log("user disconnected from the server");
      });
 
-     socket.on('createEmail',(newEmail)=>{
-        console.log('createEmail ', newEmail);
-     });
+    //  socket.on('createEmail',(newEmail)=>{
+    //     console.log('createEmail ', newEmail);
+    //  });
 
-     socket.emit('newEmail',{
-         from : 'test@test.com',
-         text : 'hello world',
-         createdAt: '1234'
-     });
+    //  socket.emit('newEmail',{
+    //      from : 'test@test.com',
+    //      text : 'hello world',
+    //      createdAt: '1234'
+    //  });
 
      socket.on("createMessage",(newMessage)=>{
          console.log("createMessage" ,newMessage);
+         io.emit('newMessage',{
+             from:newMessage.from,
+             text:newMessage.text,
+             createdAt:new Date().getTime
+         });
      });
 
-     socket.emit('newMessage',{
-         from :'ali',
-         text: 'hello everyone',
-         createdAt:12165
-     });
+    //  socket.emit('newMessage',{
+    //      from :'ali',
+    //      text: 'hello everyone',
+    //      createdAt:12165
+    //  });
 
 
 });
