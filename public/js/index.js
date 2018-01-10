@@ -1,38 +1,29 @@
 var socket = io();
+
 socket.on('connect',function () {
-
-
-    socket.on('welcomeMessage',function(message){
-        console.log(message);
-    });
-
     console.log('Connected to the server');
-    // socket.emit('createEmail' ,{
-    //     to :'example@example.com',
-    //     text: 'hello server',
-    //     createdAt:new Date().getTime()
-    // });
-
-    // socket.emit('createMessage',{
-    //     from: 'ahmed',
-    //     text:'hello samir'
-    // });
 });
+
 socket.on('disconnect',function (){
     console.log("user has disconnected from the server");
 });
 
-// socket.on('newEmail',function(email){
-//     console.log("new email",email);
-// });
-
 socket.on('newMessage',function(message){
     console.log("newMessage" ,message);
+    var li = jQuery('<li></li>');
+    li.text(`${message.from} : ${message.text}`);
+    jQuery('#messages').append(li);
 });
 
-socket.on('newUserJoind',function(message){
-    console.log(message);
+//jQuery
+jQuery('#message-form').on('submit',function(e){
+     e.preventDefault(); //prevent the default behavior of the event .
+
+     // when the user submit the form make a socket emitor
+     socket.emit('createMessage',{
+         from:'User',
+         text:jQuery('[name=message]').val()
+     },function(){
+
+     });
 });
-
-
-

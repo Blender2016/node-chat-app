@@ -1,6 +1,6 @@
 var generateMessage = (from ,text) =>{
     return {
-        form,
+        from,
         text,
         createdAt: new Date().getTime()
     }
