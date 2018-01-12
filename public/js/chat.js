@@ -15,11 +15,28 @@ function scrollToButtom(){
 }
 
 socket.on('connect',function () {
-    console.log('Connected to the server');
+    var params = jQuery.deparam(window.location.search);
+    socket.emit('join',params,function(err){
+           if(err){
+              window.location.href='/';
+              alert(err);
+           }else{
+               console.log('No Errors');
+           }
+    });
 });
 
 socket.on('disconnect',function (){
     console.log("user has disconnected from the server");
+});
+
+socket.on('updateUserList',(usersNameList)=>{
+    console.log('Users list : ',usersNameList);
+    var ol = jQuery('<ol></ol>');
+    usersNameList.forEach(function(userName){
+        ol.append(jQuery('<li></li>').text(userName));
+    });
+    jQuery('#users').html(ol);
 });
 
 socket.on('newMessage',function(message){
